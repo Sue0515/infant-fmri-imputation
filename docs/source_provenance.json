@@ -1,0 +1,177 @@
+{
+  "source_repository": "fmri_stsr",
+  "source_commit": "05a332bd68bfd263c6e9d039691b1bf66ea00a8b",
+  "source_branch": "feat/infant-irregular-imputation",
+  "source_path": "/pscratch/sd/s/suincho/code/suin/fmri_stsr/.worktrees/infant-irregular-imputation",
+  "files": [
+    {
+      "path": "stsr/imputation/__init__.py",
+      "mode": "exact_copy",
+      "source_sha256": "6396c09ec9de3632040469c9d53fc012e5561c60b65ffdbd43e47218d42654c0",
+      "export_sha256": "6396c09ec9de3632040469c9d53fc012e5561c60b65ffdbd43e47218d42654c0"
+    },
+    {
+      "path": "stsr/imputation/audit_masks.py",
+      "mode": "exact_copy",
+      "source_sha256": "2c7d6d06bc33cc4073d95f450cac2dd9e96a3bb90cb4ee154654adc86f6ed127",
+      "export_sha256": "2c7d6d06bc33cc4073d95f450cac2dd9e96a3bb90cb4ee154654adc86f6ed127"
+    },
+    {
+      "path": "stsr/imputation/data.py",
+      "mode": "exact_copy",
+      "source_sha256": "662e13ea9c7f2ba3415b2e2976bb4584f0ff790100a9d06b9fae18259aec5968",
+      "export_sha256": "662e13ea9c7f2ba3415b2e2976bb4584f0ff790100a9d06b9fae18259aec5968"
+    },
+    {
+      "path": "stsr/imputation/masks.py",
+      "mode": "exact_copy",
+      "source_sha256": "3bce06ddc9834a6df0ed663dc93c90bd126305202629af5528ae63e4d48c2b0e",
+      "export_sha256": "3bce06ddc9834a6df0ed663dc93c90bd126305202629af5528ae63e4d48c2b0e"
+    },
+    {
+      "path": "stsr/imputation/metrics.py",
+      "mode": "exact_copy",
+      "source_sha256": "6431645e88ecce25e948d45aa634ad92d5359d4f569bb465f654bcdc8469e306",
+      "export_sha256": "6431645e88ecce25e948d45aa634ad92d5359d4f569bb465f654bcdc8469e306"
+    },
+    {
+      "path": "stsr/imputation/model.py",
+      "mode": "exact_copy",
+      "source_sha256": "976248939df8f1392afba7789d812e3c08cff5ab2aef5dafff2fbb82d97d5eab",
+      "export_sha256": "976248939df8f1392afba7789d812e3c08cff5ab2aef5dafff2fbb82d97d5eab"
+    },
+    {
+      "path": "stsr/imputation/plot_mask_audit.py",
+      "mode": "exact_copy",
+      "source_sha256": "5e516f95a2c518f200627e80be084d3b80f12daa46af21f86b30a98c361c7aed",
+      "export_sha256": "5e516f95a2c518f200627e80be084d3b80f12daa46af21f86b30a98c361c7aed"
+    },
+    {
+      "path": "stsr/imputation/prepare_dryad.py",
+      "mode": "exact_copy",
+      "source_sha256": "0b2fcf087eea1c565f1b13c9c5d1a9b316ec75c5a506dbc17338d7f2cecf2721",
+      "export_sha256": "0b2fcf087eea1c565f1b13c9c5d1a9b316ec75c5a506dbc17338d7f2cecf2721"
+    },
+    {
+      "path": "stsr/imputation/profiles.py",
+      "mode": "exact_copy",
+      "source_sha256": "3f0f480e81d5b67bef21841e011c9f9c829cdad0dc45e87e0ec7007d719fcda7",
+      "export_sha256": "3f0f480e81d5b67bef21841e011c9f9c829cdad0dc45e87e0ec7007d719fcda7"
+    },
+    {
+      "path": "stsr/imputation/runner.py",
+      "mode": "adapted",
+      "source_sha256": "2aa83ae7130c7b2b0a7ab9f51a821fa63f3225e094c433cf7ae360c7086f6bf6",
+      "export_sha256": "4d245ef057501ce8fe989a2e641e049197dfb5692fc30180a3e6f792f03e824f"
+    },
+    {
+      "path": "stsr/__init__.py",
+      "mode": "exact_copy",
+      "source_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "export_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "stsr/utils.py",
+      "mode": "exact_copy",
+      "source_sha256": "90e720fde75dc7a5d80e3a0e201a75de7cb1661eb23a63664dc09d7d8bf7669c",
+      "export_sha256": "90e720fde75dc7a5d80e3a0e201a75de7cb1661eb23a63664dc09d7d8bf7669c"
+    },
+    {
+      "path": "stsr/jepa.py",
+      "mode": "exact_copy",
+      "source_sha256": "55d5104d494edf9243eeef9591169f2e857efdb186d379a9a863663d32d0ff84",
+      "export_sha256": "55d5104d494edf9243eeef9591169f2e857efdb186d379a9a863663d32d0ff84"
+    },
+    {
+      "path": "stsr/priors/__init__.py",
+      "mode": "exact_copy",
+      "source_sha256": "d22a8c1112a1533be70f8d348e4da21d8c4a649e9d6837298a4ba068c6988d4d",
+      "export_sha256": "d22a8c1112a1533be70f8d348e4da21d8c4a649e9d6837298a4ba068c6988d4d"
+    },
+    {
+      "path": "stsr/priors/frequency_decomposition.py",
+      "mode": "exact_copy",
+      "source_sha256": "ecf325aa1a6130a344c693c865dbd425297e80af4852f75980769ef46e414b47",
+      "export_sha256": "ecf325aa1a6130a344c693c865dbd425297e80af4852f75980769ef46e414b47"
+    },
+    {
+      "path": "stsr/model/spacetime_attention.py",
+      "mode": "exact_copy",
+      "source_sha256": "2ab23bb02267fa84b284925a78f23138e6e9e1576cf50ed5300c4f4bc3e7f30a",
+      "export_sha256": "2ab23bb02267fa84b284925a78f23138e6e9e1576cf50ed5300c4f4bc3e7f30a"
+    },
+    {
+      "path": "stsr/model/compress.py",
+      "mode": "exact_copy",
+      "source_sha256": "a5255da693a5c3abc5aa14b8b3efb72a6d4b81011fba158ab3d3bdd2dc4b101d",
+      "export_sha256": "a5255da693a5c3abc5aa14b8b3efb72a6d4b81011fba158ab3d3bdd2dc4b101d"
+    },
+    {
+      "path": "stsr/model/coord_encoding.py",
+      "mode": "exact_copy",
+      "source_sha256": "98d389f8be5b1ac990122011bdcdaf141a2197b45d390f7f0a1f970af081fd94",
+      "export_sha256": "98d389f8be5b1ac990122011bdcdaf141a2197b45d390f7f0a1f970af081fd94"
+    },
+    {
+      "path": "stsr/model/inr_head.py",
+      "mode": "exact_copy",
+      "source_sha256": "4340eee285136ec95dd93907e8360ee94d490d2c7a4340984918dd99a14e7b36",
+      "export_sha256": "4340eee285136ec95dd93907e8360ee94d490d2c7a4340984918dd99a14e7b36"
+    },
+    {
+      "path": "stsr/model/patcher_surface.py",
+      "mode": "exact_copy",
+      "source_sha256": "c51d17fde77a9b6098168f6435b15d8942a16a40167c16f49542b076fd0bc7bf",
+      "export_sha256": "c51d17fde77a9b6098168f6435b15d8942a16a40167c16f49542b076fd0bc7bf"
+    },
+    {
+      "path": "stsr/model/trunk.py",
+      "mode": "exact_copy",
+      "source_sha256": "a2f208d77b69ddd36f070d0db30867ac6f9347883ab24e6870d0972c7cb2bb3e",
+      "export_sha256": "a2f208d77b69ddd36f070d0db30867ac6f9347883ab24e6870d0972c7cb2bb3e"
+    },
+    {
+      "path": "stsr/model/z_readout.py",
+      "mode": "exact_copy",
+      "source_sha256": "5df7b6fa545cb83663ae9c53b36cf93dfa4c9e240db7654368e77d76fdf442b7",
+      "export_sha256": "5df7b6fa545cb83663ae9c53b36cf93dfa4c9e240db7654368e77d76fdf442b7"
+    },
+    {
+      "path": "stsr/model/observation_context.py",
+      "mode": "exact_copy",
+      "source_sha256": "b162b85fe1aa792b5586cec281fdb2ac3dc4fc2ab714dc2faa4faf02cdc70eb5",
+      "export_sha256": "b162b85fe1aa792b5586cec281fdb2ac3dc4fc2ab714dc2faa4faf02cdc70eb5"
+    },
+    {
+      "path": "configs/infant_irregular_imputation.yaml",
+      "mode": "exact_copy",
+      "source_sha256": "e530484f8980867524e1e9429622ff7e427b9e888e472fa3c707348f9c77d90f",
+      "export_sha256": "e530484f8980867524e1e9429622ff7e427b9e888e472fa3c707348f9c77d90f"
+    },
+    {
+      "path": "tests/test_irregular_imputation.py",
+      "mode": "exact_copy",
+      "source_sha256": "07653f137aa7db43545d4d41603ffb6b265d9d5ba7d93adaadec1a7372af0701",
+      "export_sha256": "07653f137aa7db43545d4d41603ffb6b265d9d5ba7d93adaadec1a7372af0701"
+    },
+    {
+      "path": "docs/infant_irregular_imputation.md",
+      "mode": "adapted",
+      "source_sha256": "4d0c93f381cd85cb57d8cd45533cef7402666bcc7730ab3c10e62d1d2b154322",
+      "export_sha256": "c1054fb407bd54f54afb29c96cdd0882feed27ea48b3d6f3f1568daec0cc94f8"
+    }
+  ],
+  "modifications": {
+    "stsr/model/__init__.py": "Expose attention/INR only; omit unused DiT/PixNerd model factory.",
+    "docs/infant_irregular_imputation.md": "Independent installation/test instructions and evidence-based clarification of excluded tails.",
+    "stsr/imputation/runner.py": "Resolve Git provenance from the installed source root, not the caller working directory."
+  },
+  "namespace": "stsr retained for checkpoint compatibility; no imports/symlinks to parent checkout.",
+  "new_components": [
+    "stsr/imputation/eda.py",
+    "tests/test_eda.py",
+    "pyproject.toml",
+    "README.md",
+    "docs/eda_initial.md"
+  ]
+}

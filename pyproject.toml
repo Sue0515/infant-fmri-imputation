@@ -1,0 +1,26 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "infant-fmri-imputation"
+version = "0.1.0"
+description = "Irregular temporal imputation and data auditing for infant movie fMRI"
+readme = "README.md"
+requires-python = ">=3.10"
+dependencies = ["torch>=2.4,<3", "numpy>=1.24,<3", "nibabel>=5,<6", "PyYAML>=6,<7", "matplotlib>=3.7,<4"]
+
+[project.optional-dependencies]
+dev = ["pytest>=8,<10"]
+
+[project.scripts]
+infant-impute = "stsr.imputation.runner:main"
+infant-prepare = "stsr.imputation.prepare_dryad:main"
+infant-audit-masks = "stsr.imputation.audit_masks:main"
+infant-eda = "stsr.imputation.eda:main"
+
+[tool.setuptools.packages.find]
+include = ["stsr*"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]

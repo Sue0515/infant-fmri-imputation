@@ -1,0 +1,30 @@
+{
+  "source": "/pscratch/sd/s/suincho/code/suin/fmri_stsr/.worktrees/infant-irregular-imputation/outputs/infant_motion_audit_2026-11-06_final",
+  "local": "outputs/mask_audit",
+  "files": [
+    {
+      "name": "audit.json",
+      "sha256": "fe81ece9db6cc55ce086589f6ea9ea9458abbbf3863ce0179bfacfa025faeceb"
+    },
+    {
+      "name": "records.json",
+      "sha256": "a1d4a70afb1cc0def2369a2e76a36e46407da0068c6f640af950bf0f41f23519"
+    },
+    {
+      "name": "cohort_split.json",
+      "sha256": "301ba807c0a986687ac0734c485576869cef6f7f678c4974f0c2e55c0f220995"
+    },
+    {
+      "name": "train_mask_profile.json",
+      "sha256": "01ddf260b3088fa8b22478f1c529c9d18ff48e9c9117277d7318c506bf46763c"
+    },
+    {
+      "name": "mask_comparison.png",
+      "sha256": "bb13a011b0710191944804835fc18581f828be9f907e776d88fb28971e239ac5"
+    },
+    {
+      "name": "mask_comparison.pdf",
+      "sha256": "c70b483af3816134e3f626b26e5115602f73c402c70b7a609ccb375ca484f22e"
+    }
+  ]
+}
