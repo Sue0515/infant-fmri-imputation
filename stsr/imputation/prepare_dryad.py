@@ -20,25 +20,38 @@ from .data import load_record, manifest, sha256
 
 
 def member(archive, name):
-    """Work around wrapped 32-bit offsets in source ZIPs, in memory only."""
-    info = archive.getinfo(name)
-    with open(archive.filename, 'rb') as stream:
-        stream.seek(info.header_offset)
-        if stream.read(4) != b'PK\x03\x04':
-            candidates = []
-            for offset in range(info.header_offset % 2**32, archive.start_dir, 2**32):
-                stream.seek(offset)
-                header = stream.read(30)
-                if len(header) == 30 and header[:4] == b'PK\x03\x04':
-                    length = struct.unpack('<H', header[26:28])[0]
-                    if stream.read(length).decode('utf-8', errors='replace') == name:
-                        candidates.append(offset)
-            if len(candidates) != 1:
-                raise ValueError('ambiguous ZIP member offset: ' + name)
-            info.header_offset = candidates[0]
+    """Repair wrapped ZIP offsets in memory, retaining payload overlap checks.
+
+    Even an entry with the correct start can have a wrong next-entry boundary
+    when Python sorted wrapped neighboring offsets. Reconstruct all boundaries
+    from verified local headers once, rather than disabling overlap detection.
+    """
+    if not getattr(archive, '_verified_local_boundaries', False):
+        verified = []
+        with open(archive.filename, 'rb') as stream:
+            for info in archive.infolist():
+                candidates = []
+                for offset in range(info.header_offset % 2**32, archive.start_dir, 2**32):
+                    stream.seek(offset)
+                    header = stream.read(30)
+                    if len(header) == 30 and header[:4] == b'PK\x03\x04':
+                        length, extra = struct.unpack('<HH', header[26:30])
+                        encoding = 'utf-8' if info.flag_bits & 0x800 else 'cp437'
+                        if stream.read(length).decode(encoding, errors='replace') == info.orig_filename:
+                            candidates.append((offset, offset+30+length+extra))
+                if len(candidates) != 1:
+                    raise ValueError('ambiguous ZIP member offset: '+info.filename)
+                verified.append((*candidates[0], info))
+        verified.sort(key=lambda item: item[0])
+        for i, (offset, data_start, info) in enumerate(verified):
+            end = verified[i+1][0] if i+1 < len(verified) else archive.start_dir
+            if data_start+info.compress_size > end:
+                raise ValueError('ZIP payload overlaps verified next header: '+info.filename)
+            info.header_offset = offset
             if hasattr(info, '_end_offset'):
-                info._end_offset = archive.start_dir
-    return archive.open(info)
+                info._end_offset = end
+        archive._verified_local_boundaries = True
+    return archive.open(archive.getinfo(name))
 
 
 def read(archive, name):

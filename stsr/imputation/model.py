@@ -9,7 +9,7 @@ from torch.utils.checkpoint import checkpoint
 
 
 class TemporalImputer(nn.Module):
-    def __init__(self, net, query_chunk=1024):
+    def __init__(self, net, query_chunk=1024, normalization='record'):
         super().__init__()
         if not hasattr(net, 'features') or getattr(net, 'inr_head', None) is None:
             raise ValueError('STSR features() and an INR readout are required')
@@ -20,6 +20,9 @@ class TemporalImputer(nn.Module):
                 getattr(net, 'functional_proj', None) is not None):
             raise ValueError('first imputation path uses local STSR without extra context/atlas inputs')
         self.net, self.query_chunk = net, int(query_chunk)
+        if normalization not in ('record', 'voxel'):
+            raise ValueError('normalization must be record or voxel')
+        self.normalization = normalization
 
     def encode(self, values, observed, coords, times):
         if values.ndim != 3 or observed.shape != values.shape or observed.dtype != torch.bool:
@@ -37,14 +40,20 @@ class TemporalImputer(nn.Module):
             raise ValueError('each sample needs at least one observation')
         # Never multiply NaNs by zero, nor use hidden values in normalization.
         safe = torch.where(observed, values, 0.).float()
-        count = observed.sum((1, 2), keepdim=True).clamp_min(1)
-        mean = safe.sum((1, 2), keepdim=True) / count
-        var = torch.where(observed, (safe - mean).square(), 0.).sum((1, 2), keepdim=True) / count
+        axes = (1, 2) if self.normalization == 'record' else (2,)
+        count = observed.sum(axes, keepdim=True).clamp_min(1)
+        mean = safe.sum(axes, keepdim=True) / count
+        var = torch.where(observed, (safe - mean).square(), 0.).sum(axes, keepdim=True) / count
         scale = var.clamp_min(1e-8).sqrt()
         condition = torch.where(observed, (safe - mean) / scale, 0.)
         features = self.net.features(condition, condition, observed.to(condition), coords, times, None)
         return dict(features=features, mean=mean, scale=scale, safe=safe,
                     observed=observed, coords=coords, times=times)
+
+    def query_statistics(self, encoded, vertices):
+        if self.normalization == 'voxel':
+            return encoded['mean'][:, vertices, 0], encoded['scale'][:, vertices, 0]
+        return encoded['mean'].flatten(1), encoded['scale'].flatten(1)
 
     def query(self, encoded, vertices, query_times, preserve_observed=True):
         """B x Q prediction at requested vertices/times within the scan.
@@ -75,7 +84,8 @@ class TemporalImputer(nn.Module):
             else:
                 predictions.append(read(encoded['features']))
         prediction = torch.cat(predictions, -1).float()
-        prediction = prediction * encoded['scale'].flatten(1) + encoded['mean'].flatten(1)
+        mean, scale = self.query_statistics(encoded, vertices)
+        prediction = prediction * scale + mean
         if preserve_observed:
             idx = torch.searchsorted(times, query_times).clamp_max(len(times)-1)
             exact = query_times == times[idx]
@@ -102,6 +112,7 @@ class TemporalImputer(nn.Module):
         score = target[:, pairs[:, 0], pairs[:, 1]]
         error = torch.where(score, prediction - torch.where(score, truth, 0.), 0.)
         # Observation-only scales: held-out amplitudes cannot affect the input.
-        normal_error = error / encoded['scale'].flatten(1)
+        _, scale = self.query_statistics(encoded, pairs[:, 0])
+        normal_error = error / scale
         loss = normal_error.square().sum() / score.sum()
         return loss, {'loss': float(loss.detach()), 'target_values': int(score.sum())}

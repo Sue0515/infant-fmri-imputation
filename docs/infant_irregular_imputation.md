@@ -1,5 +1,11 @@
 # Infant movie fMRI: irregular temporal imputation pilot
 
+Update (2026-11-07): the primary experiment now uses the [raw pipeline](raw_pipeline.md)
+and `configs/infant_raw_imputation.yaml`, with enforced random initialization.
+The stored `_Z` adapter and stored-axis EDA below are retained as a legacy pilot.
+Raw-to-movie timing, raw-frame motion/gaze annotations, and anatomical ROI validation
+remain prerequisites for real infant training; they are not inferred from the old masks.
+
 This independent project reuses `SpaceTimeAttentionNet.features()` and its INR readout to
 recover missing **BOLD samples on the native acquisition grid**. The first
 experiment is temporal imputation. There is no spatial upsampling, temporal
@@ -138,13 +144,24 @@ CSV `num_TR` to mark the unobserved tail, and excludes motion/gaze overlap from
 recoverable motion. Review `preparation.json` and mask arrays before training.
 
 The source native preprocessed series already underwent preprocessing,
-potentially including motion interpolation and temporal filtering. Discarding
+including motion interpolation documented in the eLife Methods; the exact
+remaining temporal operations must be audited from the run provenance. Discarding
 marked values now cannot remove their influence on neighboring values. Thus
 this adapter supports a **preprocessed-data wiring/feasibility pilot**, not
 proof of leakage-free reconstruction from raw fMRI. A scientific benchmark
 must track raw-to-movie time alignment and censoring, and either avoid temporal
 mixing before synthetic holdout or reprocess with holdout-aware operations.
 Raw-run masks cannot simply be copied from these processed arrays.
+
+The 2026-11-07 implementation review is in
+`implementation_review_2026-11-07.md`. The runner now excludes the designated
+analysis tail from attention/FFT computation while preserving internal gaps
+and the stored output shape. This does not validate the CSV-to-raw time mapping.
+Evaluation protocol v2 uses a separate `evaluation_seed` and record-ID-based
+masks. Old and new evaluation numbers must not be pooled. Five-fold family
+cross-validation, final all-development retraining, and family-macro checkpoint
+selection remain pending; the current runner still uses a single validation
+split and pooled MSE.
 
 ## Run and assess
 

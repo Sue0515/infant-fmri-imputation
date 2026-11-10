@@ -30,6 +30,12 @@ def score(prediction, truth, target, observed, times, acquired=None):
     if not target.any() or not torch.isfinite(prediction[target]).all() or not torch.isfinite(truth[target]).all():
         raise ValueError('all methods must score the same nonempty finite target set')
     err = prediction[target]-truth[target]
+    safe = torch.where(observed, truth, 0.)
+    count = observed.sum(-1, keepdim=True).clamp_min(1)
+    mean = safe.sum(-1, keepdim=True) / count
+    variance = torch.where(observed, (safe-mean).square(), 0.).sum(-1, keepdim=True) / count
+    scale = variance.clamp_min(1e-8).sqrt()
+    normalized_mse = float(((prediction-truth)/scale)[target].square().mean())
     correlations=[]
     for p,y,m in zip(prediction.flatten(0,1),truth.flatten(0,1),target.flatten(0,1)):
         if m.sum()<3: continue
@@ -63,5 +69,6 @@ def score(prediction, truth, target, observed, times, acquired=None):
                 'n': int(selected.sum()),
                 'mse': float((prediction[selected]-truth[selected]).square().mean()) if selected.any() else None}
     return {'n':int(target.sum()),'mse':float(err.square().mean()),'mae':float(err.abs().mean()),
+            'normalized_mse': normalized_mse,
             'voxel_r':sum(correlations)/len(correlations) if correlations else None,
             'voxel_r_rows':len(correlations),'support':groups}

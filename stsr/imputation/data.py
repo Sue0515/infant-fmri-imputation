@@ -55,6 +55,20 @@ class Record:
         return Record(*(x.to(device) if x is not None else None for x in
                         (self.values, self.valid, self.recoverable, self.coords, self.times, self.acquired)))
 
+    def analysis_view(self):
+        """Exclude only the protocol tail; never remove internal missing frames.
+
+        Retain the full record for export. A false tail is outside the analysis
+        domain, not a missing interval for attention/FFT to extrapolate through.
+        """
+        from .profiles import acquisition_length
+        domain = None if self.acquired is None else self.acquired.detach().cpu().numpy()
+        n = acquisition_length(domain, len(self.times))
+        if self.valid[:, n:].any() or self.recoverable[:, n:].any():
+            raise ValueError('excluded tail cannot contain observations or recovery targets')
+        return Record(self.values[:, :n], self.valid[:, :n], self.recoverable[:, :n],
+                      self.coords, self.times[:n], None if self.acquired is None else self.acquired[:n])
+
 
 def load_record(path, *, max_vertices=256, max_frames=256):
     with np.load(path, allow_pickle=False) as data:
@@ -93,8 +107,8 @@ def check_evaluation_split(rows, training_rows, split):
     selected = [r for r in rows if r['split'] == split]
     if split not in ('val', 'test') or not selected:
         raise ValueError('nonempty val or test split required')
-    forbidden = [r for r in training_rows if r['split'] == 'train' or
-                 (split == 'test' and r['split'] == 'val')]
+    # Keep the checkpoint's reserved test families out of model selection too.
+    forbidden = [r for r in training_rows if r['split'] != split]
     families = {r['family'] for r in forbidden}
     ids = {r['id'] for r in forbidden}
     paths = {r['path'] for r in forbidden}

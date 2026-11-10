@@ -1,0 +1,35 @@
+# Reserved-prefix calibrated, unique raw acquisitions; temporal imputation only.
+seed: 42
+evaluation_seed: 42
+initialization: random
+required_source_kind: raw_framewise_qc_v2
+normalization: voxel
+selection_metric: family_macro_normalized_mse
+training_sampling: family
+steps: 1000
+lr: 0.0003
+eval_every: 100
+eval_masks: 10
+mask_strategy: fitted
+evaluation_mask_strategy: fitted
+stress_evaluation:
+  seconds: [16, 32]
+query_chunk: 512
+limits:
+  max_vertices: 256
+  max_frames: 256
+mask:
+  min_observations: 2
+model:
+  d_model: 64
+  n_blocks: 4
+  n_heads: 4
+  attn_mode: factorized
+  factorized_time_window: 0
+  window_vertices: 16
+  window_time: 8
+  use_routing: true
+  with_inr_head: true
+  inr_hidden: 64
+  inr_k_neighbors: 6
+  with_z_head: false

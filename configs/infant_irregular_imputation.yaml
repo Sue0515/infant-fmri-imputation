@@ -1,5 +1,7 @@
 # Pilot on a fixed anatomical ROI/patch; original acquisition grid is retained.
 seed: 42
+# Fixed independently of model initialization for matched evaluation masks.
+evaluation_seed: 42
 steps: 1000
 lr: 0.0003
 eval_every: 100
